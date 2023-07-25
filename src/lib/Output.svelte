@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Utils } from "nodestorm-svelte";
-	import { ToneAudioNode } from "tone";
+	import { ToneAudioNode, getDestination } from "tone";
 
 	export const category: string = "Audio";
 
@@ -11,12 +11,14 @@
 
 	export function inputChanged(id: string, val: any): void {
 		let prev: ToneAudioNode = Utils.get(inputs, id) as ToneAudioNode;
-		if (prev != undefined) prev.disconnect();
+		if (prev != undefined) prev.disconnect(getDestination());
 
 		Utils.set(inputs, id, val);
 
 		if (val != undefined) (val as ToneAudioNode).toDestination();
 	}
+
+	getDestination().volume.value = -12;
 </script>
 
 <main class="main">
