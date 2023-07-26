@@ -1,41 +1,36 @@
 <script lang="ts">
-	import { Gain, ToneAudioNode } from "tone"
+	import { PitchShift, ToneAudioNode, Signal } from "tone"
 	import { Utils } from "nodestorm-svelte";
 
 	export const category: string = "Effects";
 
-	let gain: Gain = new Gain(0);
+	let pitchShift: PitchShift = new PitchShift();
 
-	export let inputs: Utils.Anchor[] = [{ id: "in", type: "audio", val: undefined }, { id: "gain", type: "number", val: 0 }];
-	export const outputs: Utils.Anchor[] = [{ id: "out", type: "audio", val: gain }];
+	export let inputs: Utils.Anchor[] = [{ id: "in", type: "audio", val: undefined }, { id: "shift", type: "number", val: 0 }];
+	export const outputs: Utils.Anchor[] = [{ id: "out", type: "audio", val: pitchShift }];
 
 	export let outputChanged: (id: string) => void;
 
 	export function inputChanged(id: string, val: any): void {
-		switch (id) {
-			case "in":
-				let prev: ToneAudioNode = Utils.get(inputs, id) as ToneAudioNode;
-				if (prev != undefined) prev.disconnect();
-				break;
+		if (id === "in") {
+			let prev: ToneAudioNode = Utils.get(inputs, id) as ToneAudioNode;
+			if (prev != undefined) prev.disconnect(pitchShift);
 		}
 
 		Utils.set(inputs, id, val);
 
 		if (val != undefined) {
-			switch (id) {
-				case "gain":
-					gain.gain.value = val;
-					break;
-				case "in":
-					(val as ToneAudioNode).connect(gain);
-					break;
-			}
+			if (id === "in") (val as ToneAudioNode).connect(pitchShift);
+			if (id === "shift") pitchShift.pitch = val;
 		}
+
 	}
+
+
 </script>
 
 <main class="main">
-	Gain dB
+	PitchShift
 </main>
 
 <style>

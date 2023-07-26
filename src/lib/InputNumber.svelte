@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { Utils } from "nodestorm-svelte";
-  	import { Signal } from "tone";
 
-	export const category: string = "Input";
+  	export const category: string = "Input";
 
 	export let inputs: Utils.Anchor[] = [];
 	export const outputs: Utils.Anchor[] = [{ id: "out", type: "number", val: 0 }];
@@ -21,7 +20,7 @@
 </script>
 
 <main class="main">
-	<input on:change={changedInput}>
+	<input on:change={changedInput} value=0>
 </main>
 
 <style>

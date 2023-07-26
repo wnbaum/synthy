@@ -8,12 +8,14 @@
 
 	let synth: PolySynth = new PolySynth();
 
-	export let inputs: Utils.Anchor[] = [{ id: "command", type: "envelopeCommand", val: undefined }];
+	export let inputs: Utils.Anchor[] = [{ id: "synth", type: "synth", val: undefined }];
 	export const outputs: Utils.Anchor[] = [{ id: "out", type: "audio", val: synth }];
 
 	export let outputChanged: (id: string) => void;
 
 	export function inputChanged(id: string, val: any): void {
+		if (id === "synth") Utils.get(inputs, "synth").disconnect(synth)
+
 		Utils.set(inputs, id, val);
 
 		switch (id) {

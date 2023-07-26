@@ -2,15 +2,14 @@
 	import { Utils } from "nodestorm-svelte";
   	import { Signal } from "tone";
 
-	export const category: string = "Input";
+  	export const category: string = "Input";
 
-	let signal: Signal<"hertz"> = new Signal({
+	let signal: Signal = new Signal({
 		value: 0,
-		units: "hertz"
 	});
 
 	export let inputs: Utils.Anchor[] = [];
-	export const outputs: Utils.Anchor[] = [{ id: "out", type: "signal", val: signal }];
+	export const outputs: Utils.Anchor[] = [{ id: "out", type: "audio", val: signal }];
 
 	export let outputChanged: (id: string) => void;
 
