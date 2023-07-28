@@ -1,4 +1,10 @@
+export enum TriggerType {
+	Attack,
+	Release,
+	AttackRelease,
+}
+
 export interface EnvelopeCommand {
-	attack: boolean;
-	note: string;
+	trigger: TriggerType;
+	sustain?: number;
 }

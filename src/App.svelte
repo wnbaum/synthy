@@ -21,6 +21,8 @@
   import InputNumber from "./lib/InputNumber.svelte";
   import PitchShift from "./lib/PitchShift.svelte";
   import Reverb from "./lib/Reverb.svelte";
+  import PianoNode from "./lib/PianoNode.svelte";
+  import Envelope from "./lib/Envelope.svelte";
 
 	let config: GraphConfig = new GraphConfig();
 	config.width = "100%";
@@ -57,6 +59,8 @@
 		"Add": Add,
 		"Multiply": Multiply,
 		"Reverb": Reverb,
+		"Piano": PianoNode,
+		"Envelope": Envelope
 	}
 </script>
 

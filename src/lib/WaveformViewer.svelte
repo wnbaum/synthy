@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Utils } from "nodestorm-svelte";
 	import { ToneAudioNode, Waveform } from "tone";
+  import Slider from "./Controls/Slider.svelte";
 
 	export const category: string = "Audio";
 
@@ -47,47 +48,51 @@
 		return (v - a)*(d - c)/(b - a) + c;
 	}
 
+	let sliderVal = 10;
+
 	let pos: number = 0;
-	let scale: number = 1;
 	function run() {
 		let buffer: Float32Array;
 
 		if (wave) buffer = wave.getValue();
 
-		let prev: number;
-
-		for (let i = 0; i < buffer.length; i++) {
-			let v: number = buffer ? buffer[i] : 0;
-			let scaled: number = map(v, -1, 1, 0, 256);
-
-			v = Math.floor(256-scaled);
-
-			if (prev) {
-				context.fillStyle = "rgba(0,0,0,1)";
-				context.fillRect(Math.floor(pos), 0, 1, canvas.height);
-				context.fillStyle = "rgba(0,255,255,1)";
-				context.fillRect(Math.floor(pos)+1, 0, 1, canvas.height);
-
-				context.strokeStyle = "rgba(0,0,255,1)";
-				context.beginPath();
-				context.moveTo(Math.floor(pos), prev);
-				context.lineTo(Math.floor(pos + 1/scale), v);
-				context.stroke();
-
-				pos += 1/scale;
-
-				if (pos > 256) pos -= 256;
-			}
-
-			prev = v;
+		let getV = (i) => {
+			return Math.floor(256-map(buffer[i], -1, 1, 0, 256));
 		}
 
-		if (running) window.requestAnimationFrame(run);
+		let prev = getV(0);
+		let avg = 0;
+
+		context.fillStyle = "rgba(0,0,0,1)";
+		context.fillRect(0, 0, canvas.width, canvas.height);
+
+		for (let i = 0; i < buffer.length-1; i++) {
+			context.beginPath();
+			context.moveTo(i, prev);
+
+			let v = getV(i);
+			prev = v;
+
+			context.strokeStyle = "rgba(0,0,255,1)";
+
+			context.lineTo(i+1, v);
+			context.stroke();
+
+			if (pos > 256) pos -= 256;
+		}
+
+		if (running) setTimeout(run, sliderVal);
 	}
 </script>
 
 <main class="main">
 	<canvas bind:this={canvas} width=256 height=256></canvas>
+	<div>
+		Update frequency:
+		<Slider min={10} step={1} max={100} defaultValue={100} bind:val={sliderVal}></Slider>
+		{sliderVal}ms
+	</div>
+	
 </main>
 
 <style>

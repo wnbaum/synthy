@@ -5,7 +5,7 @@
 	export const category: string = "Input";
 
 	export let inputs: Utils.Anchor[] = [];
-	export const outputs: Utils.Anchor[] = [{ id: "out", type: "envelopeCommand", val: undefined }];
+	export const outputs: Utils.Anchor[] = [{ id: "out", type: "EnvelopeCommand", val: undefined }];
 
 	export let outputChanged: (id: string) => void;
 
