@@ -23,6 +23,8 @@
   import Reverb from "./lib/Reverb.svelte";
   import PianoNode from "./lib/PianoNode.svelte";
   import Envelope from "./lib/Envelope.svelte";
+  import FeedbackDelay from "./lib/FeedbackDelay.svelte";
+  import Filter from "./lib/Filter.svelte";
 
 	let config: GraphConfig = new GraphConfig();
 	config.width = "100%";
@@ -60,7 +62,9 @@
 		"Multiply": Multiply,
 		"Reverb": Reverb,
 		"Piano": PianoNode,
-		"Envelope": Envelope
+		"Envelope": Envelope,
+		"FeedbackDelay": FeedbackDelay,
+		"Filter": Filter,
 	}
 </script>
 
